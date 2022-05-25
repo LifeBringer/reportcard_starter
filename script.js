@@ -241,7 +241,7 @@ function updateReportCard(reportCardTableElement, currentSemester) {
   addGpaRow(reportCardTableElement, studentData[currentSemester].length + 1)
   // additional calculations
   addUpStudentCredits(reportCardTableElement)
-  //calculateSemesterGpa(reportCardTableElement)
+  calculateSemesterGpa(reportCardTableElement)
 }
 
 /**
@@ -349,7 +349,18 @@ function addUpStudentCredits(reportCardTableElement) {
  */
 
 function calculateSemesterGpa(reportCardTableElement) {
-  // code goes here
+  const gpaEls = reportCardTableElement.querySelectorAll(".gpa")
+  let totCourses = gpaEls.length - 1
+  let totPoints = 0
+
+  gpaEls.forEach(gpaEl => {
+    const points = gpaPointsLookup[gpaEl.innerHTML]
+    if (points) totPoints += points
+  })
+
+  reportCardTableElement.querySelector("#total-pts").innerHTML = `${totPoints}`
+  reportCardTableElement.querySelector("#gpa").innerHTML = `${Number(totPoints / totCourses).toFixed(2)}`
+
 }
 
 window.onload = function () {
